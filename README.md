@@ -2,14 +2,12 @@
 
 ## About
 
-_(TODO: insert a description of the project here!)_
+Fixed version of Blocky, not affiliated with Tetris
 
 ### Authors
 
-*   _(TODO: insert your names here!)_
-*  ...
+*   Daniel, Emory
 
 ### Resources
 
-*   _(TODO: list your resources here!)_
-*   ...
+*   https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
