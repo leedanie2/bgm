@@ -18,6 +18,7 @@ public class Engine {
 
     private int lockCounter;
     private int entryCounter;
+    private int lineDelayCounter;
     private boolean lineWasCleared;
     private boolean isSoftDropping;
     private boolean isHardDropping;
@@ -27,6 +28,7 @@ public class Engine {
         board = new Well();
         lockCounter = 0;
         entryCounter = 0;
+        lineDelayCounter = 0;
         lineWasCleared = false;
         isSoftDropping = false;
         isHardDropping = false;
@@ -43,9 +45,11 @@ public class Engine {
     private void trySpawnBlock() {
         if (activePiece == null) {
             entryCounter += 1;
-            activePiece = new Piece(PieceKind.I,
-                new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
-            entryCounter = 0;
+            if(entryCounter == attrs.are()){
+                activePiece = new Piece(PieceKind.I,
+                    new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
+                entryCounter = 0;
+            }
             lineWasCleared = false;
             if (board.collides(activePiece)) {
                 System.exit(0);
@@ -85,7 +89,8 @@ public class Engine {
             if (input.isJustPressed(KeyKind.MOVE_LEFT)
                 || input.getFramesHeld(KeyKind.MOVE_LEFT) > attrs.das()) {
                 tryMovePiece(activePiece.getPosition().add(0, -1));
-            } else if (input.isJustPressed(KeyKind.MOVE_RIGHT)) {
+            } else if (input.isJustPressed(KeyKind.MOVE_RIGHT)
+                        || input.getFramesHeld(KeyKind.MOVE_RIGHT)>attrs.das()) {
                 tryMovePiece(activePiece.getPosition().add(0, 1)); 
             }
 
@@ -168,10 +173,16 @@ public class Engine {
    
     /** Steps the game engine one frame forward. */
     public void step() {
-        trySpawnBlock();
-        processInput();
-        processGravity();
-        lineWasCleared = processClearedLines();
+        lineDelayCounter++;
+        if(lineDelayCounter == attrs.lineAre()){
+            trySpawnBlock();
+            processInput();
+            processGravity();
+            lineWasCleared = processClearedLines();
+            if(lineWasCleared) {
+                lineDelayCounter = 0;
+            }
+        } 
     }
    
     /** @return the well associated to this board. */

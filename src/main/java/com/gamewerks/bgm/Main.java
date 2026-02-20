@@ -87,7 +87,7 @@ public class Main {
                 long currentTime = System.nanoTime();
                 timeElapsed += currentTime - prevTime;
                 prevTime = currentTime;
-                if (timeElapsed > SPF) {
+                if (timeElapsed > SPF) { // if one frame has elapsed
                     game.step();
                     panel.paintImmediately(
                         new Rectangle(0, 0, panel.getWidth(), panel.getHeight()));

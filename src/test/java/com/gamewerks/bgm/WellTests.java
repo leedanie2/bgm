@@ -115,6 +115,7 @@ public class WellTests {
     
     /**
      * Tests addToWell() function on an empty well
+     * 
      */
     @Test
     public void addtoWellTest() {
@@ -127,9 +128,26 @@ public class WellTests {
         Well well = new Well(grid);
         Piece Iblock = new Piece(PieceKind.I, new Position(3,0));
         well.addToWell(Iblock);
-        for(int i = 0; i < 4; i++) {
-          assertTrue(well.getGrid()[3][i]);
-        }
+        /*for(int i = 0; i < 4; i++) {
+          assertTrue(well.getGrid()[i][0]);
+        }*/
+       assertTrue(well.getGrid()[3][0]);
+       assertTrue(well.getGrid()[3][1]);
+       assertTrue(well.getGrid()[3][2]);
+       assertTrue(well.getGrid()[3][3]);
+
+       //assertTrue(well.getGrid()[0][0]);
+       //assertTrue(well.getGrid()[1][0]);
+       //assertTrue(well.getGrid()[2][0]);
+       //assertTrue(well.getGrid()[2][1]);
+       //assertTrue(well.getGrid()[2][2]);
+       //assertTrue(well.getGrid()[2][3]);
+       /*
+          {X, ?, ?, ?},
+          {X, ?, ?, ?},
+          {O, O, O, O},
+          {X, X, X, X},
+          */
     }
     
     /**

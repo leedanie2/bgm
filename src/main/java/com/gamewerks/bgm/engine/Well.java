@@ -55,7 +55,7 @@ public class Well {
      * @return true iff (row, col) is a valid position in this well
      */
     public boolean isValidPosition(int row, int col) {
-        return row >= 0 && row < grid.length && col >= 0 && col <= grid[0].length;
+        return row >= 0 && row < grid.length && col >= 0 && col < grid[0].length;
     }
    
     /**
@@ -92,12 +92,13 @@ public class Well {
     /**
      * Adds the given piece to the well.
      * @param p the piece to add
+     * Modified function so that row is zero indexed
      */
     public void addToWell(Piece p) {
         boolean[][] layout = p.getLayout();
         Position pos = p.getPosition();
         for (int row = 0; row < layout.length; row++) {
-            int wellRow = pos.row() - (layout.length - 1 - row);
+            int wellRow = pos.row() - (layout.length - 2 - row);
             for (int col = 0; col < layout[row].length; col++) {
                 int wellCol = pos.col() + col;
                 if (isValidPosition(wellRow, wellCol) && layout[row][col]) {
