@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.gamewerks.bgm.util.Constants;
 import com.gamewerks.bgm.util.Position;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The core engine of the Blocky game, responsible for managing and updating
@@ -22,6 +23,10 @@ public class Engine {
     private boolean lineWasCleared;
     private boolean isSoftDropping;
     private boolean isHardDropping;
+    /** Index of the array of pieces that we are currently on */
+    private static int pieceIndex = 6;
+    private static PieceKind[] pieceArr = PieceKind.ALL;
+
     
     /** Constructs a new Blocky game engine with default attributes. */
     public Engine() {
@@ -38,6 +43,30 @@ public class Engine {
     }
 
     /**
+     * Shuffles the pieces in pieceArr using Fisher-Yates algorithm
+     */
+    public static void shuffle() {
+        for(int i = 6; i > 0; i++) {
+            pieceIndex = ThreadLocalRandom.current().nextInt(i);
+            PieceKind tmp = pieceArr[i];
+            pieceArr[i] = pieceArr[pieceIndex];
+            pieceArr[pieceIndex] = tmp;
+        }
+    }
+
+    /**
+     * Returns a piece from pieceArr that has been shuffled. If pieceArr has been fully iterated, the array is reshuffled.
+     */
+    private static PieceKind randomPiece(){
+        if(pieceIndex == 6){
+            shuffle();
+            pieceIndex=0;
+        }
+        pieceIndex++;
+        return pieceArr[pieceIndex-1];
+    }
+
+    /**
      * Tries to spawn a block at the center-top of the well. Only does so if
      * there is no currently active piece. The game ends if spawning the block
      * immediately causes a collision.
@@ -46,7 +75,7 @@ public class Engine {
         if (activePiece == null) {
             entryCounter += 1;
             if(entryCounter == attrs.are()){
-                activePiece = new Piece(PieceKind.I,
+                activePiece = new Piece(randomPiece(),
                     new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
                 entryCounter = 0;
             }
