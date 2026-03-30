@@ -1,10 +1,10 @@
 package com.gamewerks.bgm.engine;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.gamewerks.bgm.util.Constants;
 import com.gamewerks.bgm.util.Position;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The core engine of the Blocky game, responsible for managing and updating
@@ -46,7 +46,7 @@ public class Engine {
      * Shuffles the pieces in pieceArr using Fisher-Yates algorithm
      */
     public static void shuffle() {
-        for(int i = 6; i > 0; i++) {
+        for (int i = 6; i > 0; i--) {
             pieceIndex = ThreadLocalRandom.current().nextInt(i);
             PieceKind tmp = pieceArr[i];
             pieceArr[i] = pieceArr[pieceIndex];
@@ -55,15 +55,16 @@ public class Engine {
     }
 
     /**
-     * Returns a piece from pieceArr that has been shuffled. If pieceArr has been fully iterated, the array is reshuffled.
+     * @return a piece from pieceArr that has been shuffled. 
+     * If pieceArr has been fully iterated, the array is reshuffled.
      */
-    private static PieceKind randomPiece(){
-        if(pieceIndex == 6){
+    private static PieceKind randomPiece() {
+        if (pieceIndex == 6) {
             shuffle();
-            pieceIndex=0;
+            pieceIndex = 0;
         }
         pieceIndex++;
-        return pieceArr[pieceIndex-1];
+        return pieceArr[pieceIndex - 1];
     }
 
     /**
@@ -74,14 +75,14 @@ public class Engine {
     private void trySpawnBlock() {
         if (activePiece == null) {
             entryCounter += 1;
-            if(entryCounter == attrs.are()){
+            if(entryCounter == attrs.are()) {
                 activePiece = new Piece(randomPiece(),
                     new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
                 entryCounter = 0;
-            }
-            lineWasCleared = false;
-            if (board.collides(activePiece)) {
-                System.exit(0);
+                lineWasCleared = false;
+                if (board.collides(activePiece)) {
+                    System.exit(0);
+                }
             }
         }
     }
@@ -92,6 +93,9 @@ public class Engine {
      * @param newPos the candidate position
      */
     private void tryMovePiece(Position newPos) {
+        if(activePiece == null){
+            throw new IllegalArgumentException();
+        }
         if (!board.collides(activePiece.getLayout(), newPos)) {
             activePiece.moveTo(newPos);
         }
@@ -119,7 +123,7 @@ public class Engine {
                 || input.getFramesHeld(KeyKind.MOVE_LEFT) > attrs.das()) {
                 tryMovePiece(activePiece.getPosition().add(0, -1));
             } else if (input.isJustPressed(KeyKind.MOVE_RIGHT)
-                        || input.getFramesHeld(KeyKind.MOVE_RIGHT)>attrs.das()) {
+                        || input.getFramesHeld(KeyKind.MOVE_RIGHT) > attrs.das()) {
                 tryMovePiece(activePiece.getPosition().add(0, 1)); 
             }
 
@@ -203,12 +207,12 @@ public class Engine {
     /** Steps the game engine one frame forward. */
     public void step() {
         lineDelayCounter++;
-        if(lineDelayCounter == attrs.lineAre()){
+        if (lineDelayCounter == attrs.lineAre()) {
             trySpawnBlock();
             processInput();
             processGravity();
             lineWasCleared = processClearedLines();
-            if(lineWasCleared) {
+            if (lineWasCleared) {
                 lineDelayCounter = 0;
             }
         } 
