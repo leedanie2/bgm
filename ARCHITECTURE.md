@@ -32,11 +32,11 @@ The Engine class represents the core game engine. A blocky game consists of two 
 
 ## Pieces
 
-The Piece class captures the active piece. A piece is a [tetromino](https://en.wikipedia.org/wiki/Tetromino). The different kinds of pieces can be found in the PieceKind enum and the layouts of each piece can be found in the engine directory of the project.
+The Piece class captures the active piece. A piece is a [tetromino](https://en.wikipedia.org/wiki/Tetromino). The different kinds of pieces can be found in the PieceKind enum and the layouts of each piece can be found in the 'data' folder inside the 'bgm' directory of the project.
 
-The underlying layout of a piece is represented by a value of type boolean[][] where an entry is marked `true` if the piece occupies that cell. The piece's position determines where this layout appears in the well at any point in time. The layouts for all the possible pieces are loaded via the `Loader` class's LoadRotationData() static method.
+The underlying layout of a piece is represented by a value of type boolean[][] where an entry is marked `true` if the piece occupies that cell. The piece's position determines where this layout appears in the well at any point in time. The layouts for all the possible pieces are loaded via the `Loader` class's 'loadAllRotationData()' static method.
 
-The well is captured by the aptly named `Well` class. The underlying data type backing the well is boolean[][], similarly to a piece's layout. Row/col pair (0, 0) corresponds to width, height in the well.
+The well is captured by the aptly named `Well` class. The underlying data type backing the well is boolean[][], similarly to a piece's layout. Row/col pair (i, j) corresponds to width, height in the well such that width increases to the right and height increases going down.
 
 ## Rendering
 
