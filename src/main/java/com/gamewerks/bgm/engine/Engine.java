@@ -222,7 +222,7 @@ public class Engine {
     public boolean[][] getWell() {
         return board.getGrid();
     }
-   
+    
     /** @return the currently active piece. */
     public Piece getActivePiece() { 
         return activePiece;
