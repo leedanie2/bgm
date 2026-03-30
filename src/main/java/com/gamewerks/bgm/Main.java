@@ -15,7 +15,7 @@ public class Main {
     /** The framerate (frames per second) of the game. */
     private static final int FPS = 60;
     /** The rate that frames are played (in seconds per frame). */
-    private static final double SPF = 1000000000.0 / FPS;
+    private static final double SPF = 50000000.0 / FPS;
     
     /** 
      * The main entry point to Blocky the Grandmaster.

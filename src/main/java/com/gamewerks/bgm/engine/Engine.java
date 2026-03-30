@@ -207,14 +207,12 @@ public class Engine {
     /** Steps the game engine one frame forward. */
     public void step() {
         lineDelayCounter++;
-        if (lineDelayCounter == attrs.lineAre()) {
+        if (lineDelayCounter >= attrs.lineAre()) {
+            lineDelayCounter = 0;
             trySpawnBlock();
             processInput();
             processGravity();
             lineWasCleared = processClearedLines();
-            if (lineWasCleared) {
-                lineDelayCounter = 0;
-            }
         } 
     }
    
