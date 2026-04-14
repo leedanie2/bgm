@@ -75,7 +75,7 @@ public class Engine {
     private void trySpawnBlock() {
         if (activePiece == null) {
             entryCounter += 1;
-            if(entryCounter == attrs.are()) {
+            if (entryCounter == attrs.are()) {
                 activePiece = new Piece(randomPiece(),
                     new Position(Constants.BOARD_HEIGHT - 1, Constants.BOARD_WIDTH / 2 - 2));
                 entryCounter = 0;
@@ -93,7 +93,7 @@ public class Engine {
      * @param newPos the candidate position
      */
     private void tryMovePiece(Position newPos) {
-        if(activePiece == null){
+        if (activePiece == null) {
             throw new IllegalArgumentException();
         }
         if (!board.collides(activePiece.getLayout(), newPos)) {
