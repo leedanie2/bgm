@@ -98,7 +98,7 @@ public class Well {
         boolean[][] layout = p.getLayout();
         Position pos = p.getPosition();
         for (int row = 0; row < layout.length; row++) {
-            int wellRow = pos.row() - (layout.length - 2 - row);
+            int wellRow = pos.row() - (layout.length - 1 - row);
             for (int col = 0; col < layout[row].length; col++) {
                 int wellCol = pos.col() + col;
                 if (isValidPosition(wellRow, wellCol) && layout[row][col]) {
